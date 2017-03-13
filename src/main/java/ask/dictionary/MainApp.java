@@ -1,6 +1,8 @@
 package ask.dictionary;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -69,30 +71,63 @@ public class MainApp extends Application {
         HBox hbWord = new HBox();
         Label wordLabel = new Label("Enter the new word: ");
         TextField wordTextField = new TextField();
+
+        BooleanBinding wordTextFieldValid = Bindings.createBooleanBinding(() -> {
+            if(wordTextField.getText().trim().length()==0) return false;
+            return true;
+        }, wordTextField.textProperty());
+
         hbWord.getChildren().addAll(wordLabel, wordTextField);
+
 
         HBox hbEngDesc = new HBox();
         Label engDescLabel = new Label("Enter word's description: ");
         TextField engDescTextField = new TextField();
+
+        BooleanBinding engDescTextFieldValid = Bindings.createBooleanBinding(() -> {
+            if(engDescTextField.getText().trim().length()==0) return false;
+            return true;
+        }, engDescTextField.textProperty());
+
         hbEngDesc.getChildren().addAll(engDescLabel, engDescTextField);
+
 
         HBox hbTurkishTranslate = new HBox();
         Label TurkishTranslateLabel = new Label("Enter word's Turkish translation: ");
         TextField TurkishTranslateTextField = new TextField();
+
+        BooleanBinding TurkishTranslateTextFieldValid = Bindings.createBooleanBinding(() -> {
+            if(TurkishTranslateTextField.getText().trim().length()==0) return false;
+            return true;
+        }, TurkishTranslateTextField.textProperty());
+
         hbTurkishTranslate.getChildren().addAll(TurkishTranslateLabel, TurkishTranslateTextField);
+
 
         HBox hbExampleSentence = new HBox();
         Label exampleSentenceLabel = new Label("Enter an example sentence for the word: ");
         TextField exampleSentenceTextField = new TextField();
+
+        BooleanBinding exampleSentenceTextFieldValid = Bindings.createBooleanBinding(() -> {
+            if(exampleSentenceTextField.getText().trim().length()==0) return false;
+            return true;
+        }, exampleSentenceTextField.textProperty());
+
         hbExampleSentence.getChildren().addAll(exampleSentenceLabel, exampleSentenceTextField);
 
         Button saveButton = new Button("Save");
+        saveButton.disableProperty().bind(wordTextFieldValid.not().or(engDescTextFieldValid.not().or(TurkishTranslateTextFieldValid.not().or(exampleSentenceTextFieldValid.not()))));
         saveButton.setOnAction(e -> {
             Dictionary recordedObject = new Dictionary();
             recordedObject.setWord(wordTextField.getText());
             recordedObject.setWordsEnglishDescription(engDescTextField.getText());
             recordedObject.setWordsTurkishTranslation(TurkishTranslateTextField.getText());
             recordedObject.setExampleSentence(exampleSentenceTextField.getText());
+
+            wordTextField.setText("");
+            engDescTextField.setText("");
+            TurkishTranslateTextField.setText("");
+            exampleSentenceTextField.setText("");
 
             saveTheWord(recordedObject);
         });
