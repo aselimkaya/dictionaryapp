@@ -1,6 +1,7 @@
 package ask.dictionary;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -12,8 +13,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
-import javax.persistence.TemporalType;
 
 /**
  * Created by selimk on 3/10/2017.
@@ -83,7 +86,18 @@ public class MainApp extends Application {
         TextField exampleSentenceTextField = new TextField();
         hbExampleSentence.getChildren().addAll(exampleSentenceLabel, exampleSentenceTextField);
 
-        vbAddNewWord.getChildren().addAll(hbWord, hbEngDesc, hbTurkishTranslate, hbExampleSentence);
+        Button saveButton = new Button("Save");
+        saveButton.setOnAction(e -> {
+            Dictionary recordedObject = new Dictionary();
+            recordedObject.setWord(wordTextField.getText());
+            recordedObject.setWordsEnglishDescription(engDescTextField.getText());
+            recordedObject.setWordsTurkishTranslation(TurkishTranslateTextField.getText());
+            recordedObject.setExampleSentence(exampleSentenceTextField.getText());
+
+            saveTheWord(recordedObject);
+        });
+
+        vbAddNewWord.getChildren().addAll(hbWord, hbEngDesc, hbTurkishTranslate, hbExampleSentence, saveButton);
 
         borderPane.setCenter(vbAddNewWord);
     }
@@ -108,5 +122,30 @@ public class MainApp extends Application {
         hBoxTop.setPadding(new Insets(15, 12, 15, 70));
 
         borderPane.setTop(hBoxTop);
+    }
+
+    public void saveTheWord(Dictionary obj){
+        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.save(obj);
+        session.getTransaction().commit();
+        session.close();
+
+        sessionFactory.close();
+    }
+
+    public ObservableList<Dictionary> getListOfObjects(){
+
+        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+
+        Session session = sessionFactory.openSession();
+
+        ObservableList<Dictionary> list = FXCollections.observableArrayList(session.createQuery("from ask.dictionary.Dictionary").list());
+
+        session.close(); sessionFactory.close();
+
+        return list;
     }
 }
