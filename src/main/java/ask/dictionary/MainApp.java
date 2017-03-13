@@ -7,10 +7,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -44,13 +42,14 @@ public class MainApp extends Application {
         );
 
         Button showAllButton = new Button("Show all words");
-        showAllButton.setOnAction(e ->
-            initializeCheckBoxes(borderPane)
-        );
+        showAllButton.setOnAction(e -> {
+            initializeCheckBoxes(borderPane);
+            fillTheTable(borderPane);
+        });
 
         HBox hBoxBottom = new HBox();
         hBoxBottom.setSpacing(125);
-        hBoxBottom.setPadding(new Insets(15, 12, 15, 100));//(top/right/bottom/left)
+        hBoxBottom.setPadding(new Insets(15, 12, 70, 100));//(top/right/bottom/left)
         hBoxBottom.getChildren().addAll(addButton,randomButton,showAllButton);
 
         borderPane.setBottom(hBoxBottom);
@@ -72,10 +71,8 @@ public class MainApp extends Application {
         Label wordLabel = new Label("Enter the new word: ");
         TextField wordTextField = new TextField();
 
-        BooleanBinding wordTextFieldValid = Bindings.createBooleanBinding(() -> {
-            if(wordTextField.getText().trim().length()==0) return false;
-            return true;
-        }, wordTextField.textProperty());
+        BooleanBinding wordTextFieldValid = Bindings.createBooleanBinding(() ->
+                wordTextField.getText().trim().length() != 0, wordTextField.textProperty());
 
         hbWord.getChildren().addAll(wordLabel, wordTextField);
 
@@ -84,10 +81,8 @@ public class MainApp extends Application {
         Label engDescLabel = new Label("Enter word's description: ");
         TextField engDescTextField = new TextField();
 
-        BooleanBinding engDescTextFieldValid = Bindings.createBooleanBinding(() -> {
-            if(engDescTextField.getText().trim().length()==0) return false;
-            return true;
-        }, engDescTextField.textProperty());
+        BooleanBinding engDescTextFieldValid = Bindings.createBooleanBinding(() ->
+                engDescTextField.getText().trim().length() != 0, engDescTextField.textProperty());
 
         hbEngDesc.getChildren().addAll(engDescLabel, engDescTextField);
 
@@ -96,10 +91,8 @@ public class MainApp extends Application {
         Label TurkishTranslateLabel = new Label("Enter word's Turkish translation: ");
         TextField TurkishTranslateTextField = new TextField();
 
-        BooleanBinding TurkishTranslateTextFieldValid = Bindings.createBooleanBinding(() -> {
-            if(TurkishTranslateTextField.getText().trim().length()==0) return false;
-            return true;
-        }, TurkishTranslateTextField.textProperty());
+        BooleanBinding TurkishTranslateTextFieldValid = Bindings.createBooleanBinding(() ->
+                TurkishTranslateTextField.getText().trim().length() != 0, TurkishTranslateTextField.textProperty());
 
         hbTurkishTranslate.getChildren().addAll(TurkishTranslateLabel, TurkishTranslateTextField);
 
@@ -108,17 +101,21 @@ public class MainApp extends Application {
         Label exampleSentenceLabel = new Label("Enter an example sentence for the word: ");
         TextField exampleSentenceTextField = new TextField();
 
-        BooleanBinding exampleSentenceTextFieldValid = Bindings.createBooleanBinding(() -> {
-            if(exampleSentenceTextField.getText().trim().length()==0) return false;
-            return true;
-        }, exampleSentenceTextField.textProperty());
+        BooleanBinding exampleSentenceTextFieldValid = Bindings.createBooleanBinding(() ->
+                exampleSentenceTextField.getText().trim().length() != 0, exampleSentenceTextField.textProperty());
 
         hbExampleSentence.getChildren().addAll(exampleSentenceLabel, exampleSentenceTextField);
 
         Button saveButton = new Button("Save");
-        saveButton.disableProperty().bind(wordTextFieldValid.not().or(engDescTextFieldValid.not().or(TurkishTranslateTextFieldValid.not().or(exampleSentenceTextFieldValid.not()))));
+
+        saveButton.disableProperty().bind(wordTextFieldValid.not()
+                .or(engDescTextFieldValid.not()
+                    .or(TurkishTranslateTextFieldValid.not()
+                        .or(exampleSentenceTextFieldValid.not()))));
+
         saveButton.setOnAction(e -> {
             Dictionary recordedObject = new Dictionary();
+
             recordedObject.setWord(wordTextField.getText());
             recordedObject.setWordsEnglishDescription(engDescTextField.getText());
             recordedObject.setWordsTurkishTranslation(TurkishTranslateTextField.getText());
@@ -142,12 +139,16 @@ public class MainApp extends Application {
         borderPane.setCenter(null);
 
         HBox hBoxTop = new HBox();
+
         CheckBox wordCheckBox = new CheckBox("Word");
         wordCheckBox.setDisable(true);
+
         CheckBox wordsEnglishDescriptionCheckBox = new CheckBox("English Description");
         wordsEnglishDescriptionCheckBox.setDisable(true);
+
         CheckBox wordsTurkishTranslationCheckBox = new CheckBox("Turkish Translation");
         wordsTurkishTranslationCheckBox.setDisable(true);
+
         CheckBox exampleSentenceCheckBox = new CheckBox("Example Sentence");
         exampleSentenceCheckBox.setDisable(true);
 
@@ -157,6 +158,36 @@ public class MainApp extends Application {
         hBoxTop.setPadding(new Insets(15, 12, 15, 70));
 
         borderPane.setTop(hBoxTop);
+    }
+
+    public void fillTheTable(BorderPane borderPane){
+
+        borderPane.setCenter(null);
+
+        TableColumn<Dictionary, String> wordColumn = new TableColumn<>("Word");
+        wordColumn.setMinWidth(100);
+        wordColumn.setCellValueFactory(new PropertyValueFactory<>("word"));
+
+        TableColumn<Dictionary, String> engDescColumn = new TableColumn<>("Word's English Description");
+        engDescColumn.setMinWidth(300);
+        engDescColumn.setCellValueFactory(new PropertyValueFactory<>("wordsEnglishDescription"));
+
+        TableColumn<Dictionary, String> TurkishTranslateColumn = new TableColumn<>("Word's Turkish Translation");
+        TurkishTranslateColumn.setMinWidth(300);
+        TurkishTranslateColumn.setCellValueFactory(new PropertyValueFactory<>("wordsTurkishTranslation"));
+
+        TableColumn<Dictionary, String> exampleSentenceColumn = new TableColumn<>("Example Sentence");
+        exampleSentenceColumn.setMinWidth(300);
+        exampleSentenceColumn.setCellValueFactory(new PropertyValueFactory<>("exampleSentence"));
+
+        TableView<Dictionary> table = new TableView<>();
+        table.setItems(getListOfObjects());
+        table.getColumns().addAll(wordColumn, engDescColumn, TurkishTranslateColumn, exampleSentenceColumn);
+
+        VBox vbox = new VBox();
+        vbox.getChildren().addAll(table);
+
+        borderPane.setCenter(vbox);
     }
 
     public void saveTheWord(Dictionary obj){
