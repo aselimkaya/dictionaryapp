@@ -12,10 +12,8 @@ import javax.persistence.Id;
 @Entity
 public class Dictionary {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
-
     private String word;
+
     private String wordsEnglishDescription;
     private String wordsTurkishTranslation;
     private String exampleSentence;
