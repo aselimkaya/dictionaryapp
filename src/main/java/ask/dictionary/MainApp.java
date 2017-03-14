@@ -90,6 +90,8 @@ public class MainApp extends Application {
 
     public void addNewWord(BorderPane borderPane){
 
+        borderPane.setTop(null);
+
         GridPane gridPane = new GridPane();
         gridPane.setHgap(120);
         gridPane.setVgap(25);
