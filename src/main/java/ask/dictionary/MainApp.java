@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -89,48 +90,54 @@ public class MainApp extends Application {
 
     public void addNewWord(BorderPane borderPane){
 
-        borderPane.setTop(null);
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(120);
+        gridPane.setVgap(25);
+        gridPane.setPadding(new Insets(130, 120, 0, 10));
 
-        VBox vbAddNewWord = new VBox();
-
-        HBox hbWord = new HBox();
-        Label wordLabel = new Label("Enter the new word: ");
+        Label wordLabel = new Label("Enter the new word:");
+        gridPane.add(wordLabel, 1, 0);
         TextField wordTextField = new TextField();
+        gridPane.add(wordTextField, 2, 0);
 
         BooleanBinding wordTextFieldValid = Bindings.createBooleanBinding(() ->
                 wordTextField.getText().trim().length() != 0, wordTextField.textProperty());
 
-        hbWord.getChildren().addAll(wordLabel, wordTextField);
 
 
-        HBox hbEngDesc = new HBox();
-        Label engDescLabel = new Label("Enter word's description: ");
+
+        Label engDescLabel = new Label("Enter word's description:");
+        gridPane.add(engDescLabel, 1, 1);
         TextField engDescTextField = new TextField();
+        gridPane.add(engDescTextField, 2, 1);
 
         BooleanBinding engDescTextFieldValid = Bindings.createBooleanBinding(() ->
                 engDescTextField.getText().trim().length() != 0, engDescTextField.textProperty());
 
-        hbEngDesc.getChildren().addAll(engDescLabel, engDescTextField);
 
 
-        HBox hbTurkishTranslate = new HBox();
-        Label TurkishTranslateLabel = new Label("Enter word's Turkish translation: ");
+
+
+        Label TurkishTranslateLabel = new Label("Enter word's Turkish translation:");
+        gridPane.add(TurkishTranslateLabel, 1, 2);
         TextField TurkishTranslateTextField = new TextField();
+        gridPane.add(TurkishTranslateTextField, 2, 2);
 
         BooleanBinding TurkishTranslateTextFieldValid = Bindings.createBooleanBinding(() ->
                 TurkishTranslateTextField.getText().trim().length() != 0, TurkishTranslateTextField.textProperty());
 
-        hbTurkishTranslate.getChildren().addAll(TurkishTranslateLabel, TurkishTranslateTextField);
 
 
-        HBox hbExampleSentence = new HBox();
-        Label exampleSentenceLabel = new Label("Enter an example sentence for the word: ");
+
+        Label exampleSentenceLabel = new Label("Enter an example sentence for the word:");
+        gridPane.add(exampleSentenceLabel, 1, 3);
         TextField exampleSentenceTextField = new TextField();
+        gridPane.add(exampleSentenceTextField, 2, 3);
 
         BooleanBinding exampleSentenceTextFieldValid = Bindings.createBooleanBinding(() ->
                 exampleSentenceTextField.getText().trim().length() != 0, exampleSentenceTextField.textProperty());
 
-        hbExampleSentence.getChildren().addAll(exampleSentenceLabel, exampleSentenceTextField);
+
 
         Button saveButton = new Button("Save");
 
@@ -154,10 +161,9 @@ public class MainApp extends Application {
 
             saveTheWord(recordedObject);
         });
+        gridPane.add(saveButton, 1, 4);
 
-        vbAddNewWord.getChildren().addAll(hbWord, hbEngDesc, hbTurkishTranslate, hbExampleSentence, saveButton);
-
-        borderPane.setCenter(vbAddNewWord);
+        borderPane.setCenter(gridPane);
     }
 
     public void initializeCheckBoxes(BorderPane borderPane){
