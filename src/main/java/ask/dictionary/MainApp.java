@@ -23,6 +23,8 @@ import org.hibernate.cfg.Configuration;
  */
 public class MainApp extends Application {
 
+    BooleanBinding wordCheckBoxValid;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -141,16 +143,20 @@ public class MainApp extends Application {
         HBox hBoxTop = new HBox();
 
         CheckBox wordCheckBox = new CheckBox("Word");
-        wordCheckBox.setDisable(true);
+        wordCheckBox.setSelected(true);
+        wordCheckBoxValid = Bindings.createBooleanBinding(wordCheckBox::isSelected, wordCheckBox.selectedProperty());
 
         CheckBox wordsEnglishDescriptionCheckBox = new CheckBox("English Description");
-        wordsEnglishDescriptionCheckBox.setDisable(true);
+        wordsEnglishDescriptionCheckBox.setSelected(true);
+        BooleanBinding wordsEnglishDescriptionCheckBoxValid = Bindings.createBooleanBinding(wordsEnglishDescriptionCheckBox::isSelected, wordsEnglishDescriptionCheckBox.selectedProperty());
 
         CheckBox wordsTurkishTranslationCheckBox = new CheckBox("Turkish Translation");
-        wordsTurkishTranslationCheckBox.setDisable(true);
+        wordsTurkishTranslationCheckBox.setSelected(true);
+        BooleanBinding wordsTurkishTranslationCheckBoxValid = Bindings.createBooleanBinding(wordsTurkishTranslationCheckBox::isSelected, wordsTurkishTranslationCheckBox.selectedProperty());
 
         CheckBox exampleSentenceCheckBox = new CheckBox("Example Sentence");
-        exampleSentenceCheckBox.setDisable(true);
+        exampleSentenceCheckBox.setSelected(true);
+        BooleanBinding exampleSentenceCheckBoxValid = Bindings.createBooleanBinding(exampleSentenceCheckBox::isSelected, exampleSentenceCheckBox.selectedProperty());
 
         hBoxTop.getChildren().addAll(wordCheckBox, wordsEnglishDescriptionCheckBox, wordsTurkishTranslationCheckBox,
                 exampleSentenceCheckBox);
@@ -165,6 +171,7 @@ public class MainApp extends Application {
         borderPane.setCenter(null);
 
         TableColumn<Dictionary, String> wordColumn = new TableColumn<>("Word");
+        wordColumn.visibleProperty().bind(wordCheckBoxValid);
         wordColumn.setMinWidth(100);
         wordColumn.setCellValueFactory(new PropertyValueFactory<>("word"));
 
