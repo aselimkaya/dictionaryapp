@@ -5,6 +5,9 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -23,7 +26,7 @@ import org.hibernate.cfg.Configuration;
  */
 public class MainApp extends Application {
 
-    BooleanBinding wordCheckBoxValid;
+    TableColumn<Dictionary, String> wordColumn;
 
     public static void main(String[] args) {
         launch(args);
@@ -144,7 +147,19 @@ public class MainApp extends Application {
 
         CheckBox wordCheckBox = new CheckBox("Word");
         wordCheckBox.setSelected(true);
-        wordCheckBoxValid = Bindings.createBooleanBinding(wordCheckBox::isSelected, wordCheckBox.selectedProperty());
+        /*BooleanBinding wordCheckBoxValid = Bindings.createBooleanBinding(wordCheckBox::isSelected, wordCheckBox.selectedProperty());*/
+
+        EventHandler ehForWordCheckBox = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(!wordCheckBox.isSelected())
+                    wordColumn.setVisible(false);
+                else
+                    wordColumn.setVisible(true);
+            }
+        };
+
+        wordCheckBox.setOnAction(ehForWordCheckBox);
 
         CheckBox wordsEnglishDescriptionCheckBox = new CheckBox("English Description");
         wordsEnglishDescriptionCheckBox.setSelected(true);
@@ -170,8 +185,7 @@ public class MainApp extends Application {
 
         borderPane.setCenter(null);
 
-        TableColumn<Dictionary, String> wordColumn = new TableColumn<>("Word");
-        wordColumn.visibleProperty().bind(wordCheckBoxValid);
+        wordColumn = new TableColumn<>("Word");
         wordColumn.setMinWidth(100);
         wordColumn.setCellValueFactory(new PropertyValueFactory<>("word"));
 

@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be4c147e-64d8-4217-b26c-eebe3adc47e5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ask/dictionary/MainApp.class" afterPath="$PROJECT_DIR$/target/classes/ask/dictionary/MainApp.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ask/dictionary/MainApp.java" afterPath="$PROJECT_DIR$/src/main/java/ask/dictionary/MainApp.java" />
     </list>
     <ignored path="Dictionary.iws" />
@@ -41,8 +39,8 @@
       <file leaf-file-name="MainApp.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ask/dictionary/MainApp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8168761">
-              <caret line="146" column="117" selection-start-line="146" selection-start-column="117" selection-end-line="146" selection-end-column="117" />
+            <state vertical-scroll-proportion="0.6409336">
+              <caret line="161" column="52" selection-start-line="161" selection-start-column="52" selection-end-line="161" selection-end-column="52" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -727,15 +725,15 @@
       <updated>1489150695616</updated>
       <workItem from="1489150700130" duration="3758000" />
       <workItem from="1489387708389" duration="14652000" />
-      <workItem from="1489473357544" duration="882000" />
+      <workItem from="1489473357544" duration="1270000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19292000" />
+    <option name="totallyTimeSpent" value="19680000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -911,8 +909,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ask/dictionary/MainApp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8168761">
-          <caret line="146" column="117" selection-start-line="146" selection-start-column="117" selection-end-line="146" selection-end-column="117" />
+        <state vertical-scroll-proportion="0.6409336">
+          <caret line="161" column="52" selection-start-line="161" selection-start-column="52" selection-end-line="161" selection-end-column="52" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
