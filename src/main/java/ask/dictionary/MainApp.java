@@ -19,6 +19,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.Random;
+
 
 /**
  * Created by selimk on 3/10/2017.
@@ -45,9 +47,10 @@ public class MainApp extends Application {
         BorderPane borderPane = new BorderPane();
 
         Button randomButton = new Button("Get a random word");
-        randomButton.setOnAction(e ->
-            initializeCheckBoxes(borderPane)
-        );
+        randomButton.setOnAction(e -> {
+            initializeCheckBoxes(borderPane);
+            fillTheTable(borderPane, Option.RANDOM);
+        });
 
         Button addButton = new Button("Add a new word");
         addButton.setOnAction(e ->
@@ -57,7 +60,7 @@ public class MainApp extends Application {
         Button showAllButton = new Button("Show all words");
         showAllButton.setOnAction(e -> {
             initializeCheckBoxes(borderPane);
-            fillTheTable(borderPane);
+            fillTheTable(borderPane, Option.ALL);
         });
 
         HBox hBoxBottom = new HBox();
@@ -217,7 +220,7 @@ public class MainApp extends Application {
         borderPane.setTop(hBoxTop);
     }
 
-    public void fillTheTable(BorderPane borderPane){
+    public void fillTheTable(BorderPane borderPane, Option option){
 
         borderPane.setCenter(null);
 
@@ -238,13 +241,34 @@ public class MainApp extends Application {
         exampleSentenceColumn.setCellValueFactory(new PropertyValueFactory<>("exampleSentence"));
 
         TableView<Dictionary> table = new TableView<>();
-        table.setItems(getListOfObjects());
+        if(option == Option.ALL)
+            table.setItems(getListOfObjects());
+        else if(option == Option.RANDOM)
+            table.setItems(getARandomObject());
         table.getColumns().addAll(wordColumn, engDescColumn, TurkishTranslateColumn, exampleSentenceColumn);
 
         VBox vbox = new VBox();
         vbox.getChildren().addAll(table);
 
         borderPane.setCenter(vbox);
+    }
+
+    public ObservableList<Dictionary> getARandomObject(){
+        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+
+        Session session = sessionFactory.openSession();
+
+        Random random = new Random();
+
+        int randomNum = random.nextInt(list.size())+1;
+
+        ObservableList<Dictionary> randomObject = FXCollections.observableArrayList(session.createQuery("from ask.dictionary.Dictionary where Id = " + randomNum).list());
+
+        session.close();
+
+        sessionFactory.close();
+
+        return randomObject;
     }
 
     public void saveTheWord(Dictionary obj){

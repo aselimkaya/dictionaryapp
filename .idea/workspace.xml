@@ -2,6 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be4c147e-64d8-4217-b26c-eebe3adc47e5" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/ask/dictionary/Option.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ask/dictionary/MainApp$1.class" afterPath="$PROJECT_DIR$/target/classes/ask/dictionary/MainApp$1.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ask/dictionary/MainApp$2.class" afterPath="$PROJECT_DIR$/target/classes/ask/dictionary/MainApp$2.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ask/dictionary/MainApp$3.class" afterPath="$PROJECT_DIR$/target/classes/ask/dictionary/MainApp$3.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ask/dictionary/MainApp$4.class" afterPath="$PROJECT_DIR$/target/classes/ask/dictionary/MainApp$4.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/ask/dictionary/MainApp.class" afterPath="$PROJECT_DIR$/target/classes/ask/dictionary/MainApp.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/ask/dictionary/MainApp.java" afterPath="$PROJECT_DIR$/src/main/java/ask/dictionary/MainApp.java" />
     </list>
     <ignored path="Dictionary.iws" />
@@ -39,13 +46,23 @@
       <file leaf-file-name="MainApp.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ask/dictionary/MainApp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.73626375">
-              <caret line="208" column="9" selection-start-line="208" selection-start-column="9" selection-end-line="208" selection-end-column="9" />
+            <state vertical-scroll-proportion="1.0631868">
+              <caret line="245" column="39" selection-start-line="245" selection-start-column="39" selection-end-line="245" selection-end-column="39" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#9355#9356#0" expanded="true" />
-                <element signature="e#9382#9383#0" expanded="true" />
+                <element signature="e#10164#10165#0" expanded="true" />
+                <element signature="e#10191#10192#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Option.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/ask/dictionary/Option.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -55,22 +72,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="20" column="34" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="34" />
-              <folding>
-                <element signature="e#506#507#0" expanded="true" />
-                <element signature="e#531#532#0" expanded="true" />
-                <element signature="e#562#563#0" expanded="true" />
-                <element signature="e#589#590#0" expanded="true" />
-                <element signature="e#629#630#0" expanded="true" />
-                <element signature="e#661#662#0" expanded="true" />
-                <element signature="e#711#712#0" expanded="true" />
-                <element signature="e#757#758#0" expanded="true" />
-                <element signature="e#955#956#0" expanded="true" />
-                <element signature="e#1001#1002#0" expanded="true" />
-                <element signature="e#1191#1192#0" expanded="true" />
-                <element signature="e#1229#1230#0" expanded="true" />
-                <element signature="e#1291#1292#0" expanded="true" />
-                <element signature="e#1345#1346#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -110,6 +112,7 @@
         <option value="$PROJECT_DIR$/src/main/java/ask.dictionary/Dictionary.java" />
         <option value="$PROJECT_DIR$/src/main/java/ask/dictionary/Dictionary.java" />
         <option value="$PROJECT_DIR$/src/main/resources/hibernate.cfg.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/ask/dictionary/Option.java" />
         <option value="$PROJECT_DIR$/src/main/java/ask/dictionary/MainApp.java" />
       </list>
     </option>
@@ -727,12 +730,12 @@
       <updated>1489150695616</updated>
       <workItem from="1489150700130" duration="3758000" />
       <workItem from="1489387708389" duration="14652000" />
-      <workItem from="1489473357544" duration="2423000" />
+      <workItem from="1489473357544" duration="3957000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20833000" />
+    <option name="totallyTimeSpent" value="22367000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -819,8 +822,8 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9355#9356#0" expanded="true" />
-            <element signature="e#9382#9383#0" expanded="true" />
+            <element signature="e#10164#10165#0" expanded="true" />
+            <element signature="e#10191#10192#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -829,22 +832,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="20" column="34" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="34" />
-          <folding>
-            <element signature="e#506#507#0" expanded="true" />
-            <element signature="e#531#532#0" expanded="true" />
-            <element signature="e#562#563#0" expanded="true" />
-            <element signature="e#589#590#0" expanded="true" />
-            <element signature="e#629#630#0" expanded="true" />
-            <element signature="e#661#662#0" expanded="true" />
-            <element signature="e#711#712#0" expanded="true" />
-            <element signature="e#757#758#0" expanded="true" />
-            <element signature="e#955#956#0" expanded="true" />
-            <element signature="e#1001#1002#0" expanded="true" />
-            <element signature="e#1191#1192#0" expanded="true" />
-            <element signature="e#1229#1230#0" expanded="true" />
-            <element signature="e#1291#1292#0" expanded="true" />
-            <element signature="e#1345#1346#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -892,33 +880,26 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="20" column="34" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="34" />
-          <folding>
-            <element signature="e#506#507#0" expanded="true" />
-            <element signature="e#531#532#0" expanded="true" />
-            <element signature="e#562#563#0" expanded="true" />
-            <element signature="e#589#590#0" expanded="true" />
-            <element signature="e#629#630#0" expanded="true" />
-            <element signature="e#661#662#0" expanded="true" />
-            <element signature="e#711#712#0" expanded="true" />
-            <element signature="e#757#758#0" expanded="true" />
-            <element signature="e#955#956#0" expanded="true" />
-            <element signature="e#1001#1002#0" expanded="true" />
-            <element signature="e#1191#1192#0" expanded="true" />
-            <element signature="e#1229#1230#0" expanded="true" />
-            <element signature="e#1291#1292#0" expanded="true" />
-            <element signature="e#1345#1346#0" expanded="true" />
-          </folding>
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ask/dictionary/Option.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="5" column="11" selection-start-line="5" selection-start-column="11" selection-end-line="5" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ask/dictionary/MainApp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.73626375">
-          <caret line="208" column="9" selection-start-line="208" selection-start-column="9" selection-end-line="208" selection-end-column="9" />
+        <state vertical-scroll-proportion="1.0631868">
+          <caret line="245" column="39" selection-start-line="245" selection-start-column="39" selection-end-line="245" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#9355#9356#0" expanded="true" />
-            <element signature="e#9382#9383#0" expanded="true" />
+            <element signature="e#10164#10165#0" expanded="true" />
+            <element signature="e#10191#10192#0" expanded="true" />
           </folding>
         </state>
       </provider>
