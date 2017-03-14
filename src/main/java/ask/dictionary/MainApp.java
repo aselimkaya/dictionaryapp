@@ -27,6 +27,9 @@ import org.hibernate.cfg.Configuration;
 public class MainApp extends Application {
 
     TableColumn<Dictionary, String> wordColumn;
+    TableColumn<Dictionary, String> engDescColumn;
+    TableColumn<Dictionary, String> TurkishTranslateColumn;
+    TableColumn<Dictionary, String> exampleSentenceColumn;
 
     public static void main(String[] args) {
         launch(args);
@@ -147,7 +150,6 @@ public class MainApp extends Application {
 
         CheckBox wordCheckBox = new CheckBox("Word");
         wordCheckBox.setSelected(true);
-        /*BooleanBinding wordCheckBoxValid = Bindings.createBooleanBinding(wordCheckBox::isSelected, wordCheckBox.selectedProperty());*/
 
         EventHandler ehForWordCheckBox = new EventHandler<ActionEvent>() {
             @Override
@@ -161,17 +163,54 @@ public class MainApp extends Application {
 
         wordCheckBox.setOnAction(ehForWordCheckBox);
 
+
         CheckBox wordsEnglishDescriptionCheckBox = new CheckBox("English Description");
         wordsEnglishDescriptionCheckBox.setSelected(true);
-        BooleanBinding wordsEnglishDescriptionCheckBoxValid = Bindings.createBooleanBinding(wordsEnglishDescriptionCheckBox::isSelected, wordsEnglishDescriptionCheckBox.selectedProperty());
+
+        EventHandler ehForWordsEnglishDescriptionCheckBox = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(!wordsEnglishDescriptionCheckBox.isSelected())
+                    engDescColumn.setVisible(false);
+                else
+                    engDescColumn.setVisible(true);
+            }
+        };
+
+        wordsEnglishDescriptionCheckBox.setOnAction(ehForWordsEnglishDescriptionCheckBox);
+
 
         CheckBox wordsTurkishTranslationCheckBox = new CheckBox("Turkish Translation");
         wordsTurkishTranslationCheckBox.setSelected(true);
-        BooleanBinding wordsTurkishTranslationCheckBoxValid = Bindings.createBooleanBinding(wordsTurkishTranslationCheckBox::isSelected, wordsTurkishTranslationCheckBox.selectedProperty());
+
+        EventHandler ehForWordsTurkishTranslationCheckBox = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(!wordsTurkishTranslationCheckBox.isSelected())
+                    TurkishTranslateColumn.setVisible(false);
+                else
+                    TurkishTranslateColumn.setVisible(true);
+            }
+        };
+
+        wordsTurkishTranslationCheckBox.setOnAction(ehForWordsTurkishTranslationCheckBox);
+
 
         CheckBox exampleSentenceCheckBox = new CheckBox("Example Sentence");
         exampleSentenceCheckBox.setSelected(true);
-        BooleanBinding exampleSentenceCheckBoxValid = Bindings.createBooleanBinding(exampleSentenceCheckBox::isSelected, exampleSentenceCheckBox.selectedProperty());
+
+        EventHandler ehForExampleSentenceCheckBox = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                if(!exampleSentenceCheckBox.isSelected())
+                    exampleSentenceColumn.setVisible(false);
+                else
+                    exampleSentenceColumn.setVisible(true);
+            }
+        };
+
+        exampleSentenceCheckBox.setOnAction(ehForExampleSentenceCheckBox);
+
 
         hBoxTop.getChildren().addAll(wordCheckBox, wordsEnglishDescriptionCheckBox, wordsTurkishTranslationCheckBox,
                 exampleSentenceCheckBox);
@@ -189,15 +228,15 @@ public class MainApp extends Application {
         wordColumn.setMinWidth(100);
         wordColumn.setCellValueFactory(new PropertyValueFactory<>("word"));
 
-        TableColumn<Dictionary, String> engDescColumn = new TableColumn<>("Word's English Description");
+        engDescColumn = new TableColumn<>("Word's English Description");
         engDescColumn.setMinWidth(300);
         engDescColumn.setCellValueFactory(new PropertyValueFactory<>("wordsEnglishDescription"));
 
-        TableColumn<Dictionary, String> TurkishTranslateColumn = new TableColumn<>("Word's Turkish Translation");
+        TurkishTranslateColumn = new TableColumn<>("Word's Turkish Translation");
         TurkishTranslateColumn.setMinWidth(300);
         TurkishTranslateColumn.setCellValueFactory(new PropertyValueFactory<>("wordsTurkishTranslation"));
 
-        TableColumn<Dictionary, String> exampleSentenceColumn = new TableColumn<>("Example Sentence");
+        exampleSentenceColumn = new TableColumn<>("Example Sentence");
         exampleSentenceColumn.setMinWidth(300);
         exampleSentenceColumn.setCellValueFactory(new PropertyValueFactory<>("exampleSentence"));
 
