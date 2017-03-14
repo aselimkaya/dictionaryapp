@@ -34,9 +34,19 @@ public class MainApp extends Application {
     TableColumn<Dictionary, String> TurkishTranslateColumn;
     TableColumn<Dictionary, String> exampleSentenceColumn;
 
+    static boolean wordCheckBoxFlag;
+    static boolean wordsEnglishDescriptionCheckBoxFlag;
+    static boolean wordsTurkishTranslationCheckBoxFlag;
+    static boolean exampleSentenceCheckBoxFlag;
+
     public static void main(String[] args) {
 
         fillList();
+
+        wordCheckBoxFlag = true;
+        wordsEnglishDescriptionCheckBoxFlag = true;
+        wordsTurkishTranslationCheckBoxFlag = true;
+        exampleSentenceCheckBoxFlag = true;
 
         launch(args);
 
@@ -157,57 +167,73 @@ public class MainApp extends Application {
         HBox hBoxTop = new HBox();
 
         CheckBox wordCheckBox = new CheckBox("Word");
-        wordCheckBox.setSelected(true);
+        wordCheckBox.setSelected(wordCheckBoxFlag);
 
         wordCheckBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(!wordCheckBox.isSelected())
+                if(!wordCheckBox.isSelected()) {
                     wordColumn.setVisible(false);
-                else
+                    wordCheckBoxFlag = false;
+                }
+                else{
+                    wordCheckBoxFlag = true;
                     wordColumn.setVisible(true);
+                }
             }
         });
 
 
         CheckBox wordsEnglishDescriptionCheckBox = new CheckBox("English Description");
-        wordsEnglishDescriptionCheckBox.setSelected(true);
+        wordsEnglishDescriptionCheckBox.setSelected(wordsEnglishDescriptionCheckBoxFlag);
 
         wordsEnglishDescriptionCheckBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(!wordsEnglishDescriptionCheckBox.isSelected())
-                    engDescColumn.setVisible(false);
-                else
+                if(wordsEnglishDescriptionCheckBox.isSelected()) {
                     engDescColumn.setVisible(true);
+                    wordsEnglishDescriptionCheckBoxFlag = true;
+                }
+                else{
+                    engDescColumn.setVisible(false);
+                    wordsEnglishDescriptionCheckBoxFlag = false;
+                }
             }
         });
 
 
         CheckBox wordsTurkishTranslationCheckBox = new CheckBox("Turkish Translation");
-        wordsTurkishTranslationCheckBox.setSelected(true);
+        wordsTurkishTranslationCheckBox.setSelected(wordsTurkishTranslationCheckBoxFlag);
 
         wordsTurkishTranslationCheckBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(!wordsTurkishTranslationCheckBox.isSelected())
+                if(!wordsTurkishTranslationCheckBox.isSelected()) {
                     TurkishTranslateColumn.setVisible(false);
-                else
+                    wordsTurkishTranslationCheckBoxFlag = false;
+                }
+                else {
                     TurkishTranslateColumn.setVisible(true);
+                    wordsTurkishTranslationCheckBoxFlag = true;
+                }
             }
         });
 
 
         CheckBox exampleSentenceCheckBox = new CheckBox("Example Sentence");
-        exampleSentenceCheckBox.setSelected(true);
+        exampleSentenceCheckBox.setSelected(exampleSentenceCheckBoxFlag);
 
         exampleSentenceCheckBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(!exampleSentenceCheckBox.isSelected())
+                if(!exampleSentenceCheckBox.isSelected()) {
                     exampleSentenceColumn.setVisible(false);
-                else
+                    exampleSentenceCheckBoxFlag = false;
+                }
+                else if(exampleSentenceCheckBox.isSelected()) {
                     exampleSentenceColumn.setVisible(true);
+                    exampleSentenceCheckBoxFlag = true;
+                }
             }
         });
 
@@ -227,18 +253,22 @@ public class MainApp extends Application {
         wordColumn = new TableColumn<>("Word");
         wordColumn.setMinWidth(100);
         wordColumn.setCellValueFactory(new PropertyValueFactory<>("word"));
+        wordColumn.setVisible(wordCheckBoxFlag);
 
         engDescColumn = new TableColumn<>("Word's English Description");
         engDescColumn.setMinWidth(300);
         engDescColumn.setCellValueFactory(new PropertyValueFactory<>("wordsEnglishDescription"));
+        engDescColumn.setVisible(wordsEnglishDescriptionCheckBoxFlag);
 
         TurkishTranslateColumn = new TableColumn<>("Word's Turkish Translation");
         TurkishTranslateColumn.setMinWidth(300);
         TurkishTranslateColumn.setCellValueFactory(new PropertyValueFactory<>("wordsTurkishTranslation"));
+        TurkishTranslateColumn.setVisible(wordsTurkishTranslationCheckBoxFlag);
 
         exampleSentenceColumn = new TableColumn<>("Example Sentence");
         exampleSentenceColumn.setMinWidth(300);
         exampleSentenceColumn.setCellValueFactory(new PropertyValueFactory<>("exampleSentence"));
+        exampleSentenceColumn.setVisible(exampleSentenceCheckBoxFlag);
 
         TableView<Dictionary> table = new TableView<>();
         if(option == Option.ALL)
@@ -254,19 +284,13 @@ public class MainApp extends Application {
     }
 
     public ObservableList<Dictionary> getARandomObject(){
-        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
-
-        Session session = sessionFactory.openSession();
 
         Random random = new Random();
 
-        int randomNum = random.nextInt(list.size())+1;
+        int randomNum = random.nextInt(list.size());
 
-        ObservableList<Dictionary> randomObject = FXCollections.observableArrayList(session.createQuery("from ask.dictionary.Dictionary where Id = " + randomNum).list());
-
-        session.close();
-
-        sessionFactory.close();
+        ObservableList<Dictionary> randomObject = FXCollections.observableArrayList();
+        randomObject.add(list.get(randomNum));
 
         return randomObject;
     }
