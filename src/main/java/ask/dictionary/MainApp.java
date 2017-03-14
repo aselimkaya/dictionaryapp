@@ -6,7 +6,6 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -26,13 +25,19 @@ import org.hibernate.cfg.Configuration;
  */
 public class MainApp extends Application {
 
+    static ObservableList<Dictionary> list;
+
     TableColumn<Dictionary, String> wordColumn;
     TableColumn<Dictionary, String> engDescColumn;
     TableColumn<Dictionary, String> TurkishTranslateColumn;
     TableColumn<Dictionary, String> exampleSentenceColumn;
 
     public static void main(String[] args) {
+
+        fillList();
+
         launch(args);
+
     }
 
     @Override
@@ -151,7 +156,7 @@ public class MainApp extends Application {
         CheckBox wordCheckBox = new CheckBox("Word");
         wordCheckBox.setSelected(true);
 
-        EventHandler ehForWordCheckBox = new EventHandler<ActionEvent>() {
+        wordCheckBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if(!wordCheckBox.isSelected())
@@ -159,15 +164,13 @@ public class MainApp extends Application {
                 else
                     wordColumn.setVisible(true);
             }
-        };
-
-        wordCheckBox.setOnAction(ehForWordCheckBox);
+        });
 
 
         CheckBox wordsEnglishDescriptionCheckBox = new CheckBox("English Description");
         wordsEnglishDescriptionCheckBox.setSelected(true);
 
-        EventHandler ehForWordsEnglishDescriptionCheckBox = new EventHandler<ActionEvent>() {
+        wordsEnglishDescriptionCheckBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if(!wordsEnglishDescriptionCheckBox.isSelected())
@@ -175,15 +178,13 @@ public class MainApp extends Application {
                 else
                     engDescColumn.setVisible(true);
             }
-        };
-
-        wordsEnglishDescriptionCheckBox.setOnAction(ehForWordsEnglishDescriptionCheckBox);
+        });
 
 
         CheckBox wordsTurkishTranslationCheckBox = new CheckBox("Turkish Translation");
         wordsTurkishTranslationCheckBox.setSelected(true);
 
-        EventHandler ehForWordsTurkishTranslationCheckBox = new EventHandler<ActionEvent>() {
+        wordsTurkishTranslationCheckBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if(!wordsTurkishTranslationCheckBox.isSelected())
@@ -191,15 +192,13 @@ public class MainApp extends Application {
                 else
                     TurkishTranslateColumn.setVisible(true);
             }
-        };
-
-        wordsTurkishTranslationCheckBox.setOnAction(ehForWordsTurkishTranslationCheckBox);
+        });
 
 
         CheckBox exampleSentenceCheckBox = new CheckBox("Example Sentence");
         exampleSentenceCheckBox.setSelected(true);
 
-        EventHandler ehForExampleSentenceCheckBox = new EventHandler<ActionEvent>() {
+        exampleSentenceCheckBox.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 if(!exampleSentenceCheckBox.isSelected())
@@ -207,9 +206,7 @@ public class MainApp extends Application {
                 else
                     exampleSentenceColumn.setVisible(true);
             }
-        };
-
-        exampleSentenceCheckBox.setOnAction(ehForExampleSentenceCheckBox);
+        });
 
 
         hBoxTop.getChildren().addAll(wordCheckBox, wordsEnglishDescriptionCheckBox, wordsTurkishTranslationCheckBox,
@@ -263,15 +260,16 @@ public class MainApp extends Application {
     }
 
     public ObservableList<Dictionary> getListOfObjects(){
+        return list;
+    }
 
+    public static void fillList(){
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
         Session session = sessionFactory.openSession();
 
-        ObservableList<Dictionary> list = FXCollections.observableArrayList(session.createQuery("from ask.dictionary.Dictionary").list());
+        list = FXCollections.observableArrayList(session.createQuery("from ask.dictionary.Dictionary").list());
 
         session.close(); sessionFactory.close();
-
-        return list;
     }
 }
