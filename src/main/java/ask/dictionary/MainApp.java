@@ -328,6 +328,9 @@ public class MainApp extends Application {
     }
 
     public void saveTheWord(Dictionary obj){
+
+        table.getItems().add(obj);
+
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
         Session session = sessionFactory.openSession();
