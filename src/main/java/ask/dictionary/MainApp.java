@@ -106,8 +106,6 @@ public class MainApp extends Application {
                 wordTextField.getText().trim().length() != 0, wordTextField.textProperty());
 
 
-
-
         Label engDescLabel = new Label("Enter word's description:");
         gridPane.add(engDescLabel, 1, 1);
         TextField engDescTextField = new TextField();
@@ -118,8 +116,6 @@ public class MainApp extends Application {
 
 
 
-
-
         Label TurkishTranslateLabel = new Label("Enter word's Turkish translation:");
         gridPane.add(TurkishTranslateLabel, 1, 2);
         TextField TurkishTranslateTextField = new TextField();
@@ -127,7 +123,6 @@ public class MainApp extends Application {
 
         BooleanBinding TurkishTranslateTextFieldValid = Bindings.createBooleanBinding(() ->
                 TurkishTranslateTextField.getText().trim().length() != 0, TurkishTranslateTextField.textProperty());
-
 
 
 
@@ -143,10 +138,7 @@ public class MainApp extends Application {
 
         Button saveButton = new Button("Save");
 
-        saveButton.disableProperty().bind(wordTextFieldValid.not()
-                .or(engDescTextFieldValid.not()
-                    .or(TurkishTranslateTextFieldValid.not()
-                        .or(exampleSentenceTextFieldValid.not()))));
+        saveButton.disableProperty().bind(wordTextFieldValid.not().or(TurkishTranslateTextFieldValid.not()));
 
         saveButton.setOnAction(e -> {
             Dictionary recordedObject = new Dictionary();
@@ -274,7 +266,7 @@ public class MainApp extends Application {
         TurkishTranslateColumn.setVisible(wordsTurkishTranslationCheckBoxFlag);
 
         exampleSentenceColumn = new TableColumn<>("Example Sentence");
-        exampleSentenceColumn.setMinWidth(300);
+        exampleSentenceColumn.setMinWidth(1000);
         exampleSentenceColumn.setCellValueFactory(new PropertyValueFactory<>("exampleSentence"));
         exampleSentenceColumn.setVisible(exampleSentenceCheckBoxFlag);
 
@@ -293,12 +285,19 @@ public class MainApp extends Application {
 
     public ObservableList<Dictionary> getARandomObject(){
 
-        Random random = new Random();
 
-        int randomNum = random.nextInt(list.size());
+        ObservableList<Dictionary> randomObject;
 
-        ObservableList<Dictionary> randomObject = FXCollections.observableArrayList();
-        randomObject.add(list.get(randomNum));
+        if(list!=null && list.size()>0) {
+            Random random = new Random();
+            int randomNum = random.nextInt(list.size());
+
+            randomObject = FXCollections.observableArrayList();
+            randomObject.add(list.get(randomNum));
+        }
+        else
+            randomObject = getListOfObjects();
+
 
         return randomObject;
     }
