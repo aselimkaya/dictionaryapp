@@ -20,6 +20,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Random;
 
 
@@ -30,7 +32,7 @@ public class MainApp extends Application {
 
     static ObservableList<Dictionary> list;
 
-    TableView<Dictionary> table;
+    TableView<Dictionary> table = new TableView<>();
 
     TableColumn<Dictionary, String> wordColumn;
     TableColumn<Dictionary, String> engDescColumn;
@@ -41,6 +43,9 @@ public class MainApp extends Application {
     static boolean wordsEnglishDescriptionCheckBoxFlag;
     static boolean wordsTurkishTranslationCheckBoxFlag;
     static boolean exampleSentenceCheckBoxFlag;
+
+
+
 
     public static void main(String[] args) {
 
@@ -59,29 +64,38 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         BorderPane borderPane = new BorderPane();
 
+        HBox hBoxBottom = new HBox();
+
+        Button deleteButton = new Button("Delete");
+        deleteButton.setOnAction(e -> deleteAnObject());
+        deleteButton.setVisible(false);
+
         Button randomButton = new Button("Get a random word");
         randomButton.setOnAction(e -> {
             initializeCheckBoxes(borderPane);
             fillTheTable(borderPane, Option.RANDOM);
+            deleteButton.setVisible(true);
+            hBoxBottom.setPadding(new Insets(15, 12, 70, 70));
         });
 
         Button addButton = new Button("Add a new word");
-        addButton.setOnAction(e ->
-            addNewWord(borderPane)
-        );
+        addButton.setOnAction(e -> {
+            addNewWord(borderPane);
+            deleteButton.setVisible(false);
+            hBoxBottom.setPadding(new Insets(15, 12, 70, 120));
+        });
 
         Button showAllButton = new Button("Show all words");
         showAllButton.setOnAction(e -> {
             initializeCheckBoxes(borderPane);
             fillTheTable(borderPane, Option.ALL);
+            deleteButton.setVisible(true);
+            hBoxBottom.setPadding(new Insets(15, 12, 70, 70));
         });
 
-        Button deleteButton = new Button("Delete");
-        deleteButton.setOnAction(e -> deleteAnObject());
 
-        HBox hBoxBottom = new HBox();
-        hBoxBottom.setSpacing(125);
-        hBoxBottom.setPadding(new Insets(15, 12, 70, 100));//(top/right/bottom/left)
+        hBoxBottom.setSpacing(100);
+        hBoxBottom.setPadding(new Insets(15, 12, 70, 120));//(top/right/bottom/left)
         hBoxBottom.getChildren().addAll(addButton,randomButton,showAllButton, deleteButton);
 
         borderPane.setBottom(hBoxBottom);
@@ -95,9 +109,9 @@ public class MainApp extends Application {
 
     public void deleteAnObject(){
         ObservableList<Dictionary> selectedWords, allWords;
+
         allWords = table.getItems();
         selectedWords = table.getSelectionModel().getSelectedItems();
-
         SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
         Session session = sessionFactory.openSession();
@@ -158,8 +172,7 @@ public class MainApp extends Application {
 
         BooleanBinding exampleSentenceTextFieldValid = Bindings.createBooleanBinding(() ->
                 exampleSentenceTextField.getText().trim().length() != 0, exampleSentenceTextField.textProperty());
-
-
+        
 
         Button saveButton = new Button("Save");
 
