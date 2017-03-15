@@ -30,6 +30,8 @@ public class MainApp extends Application {
 
     static ObservableList<Dictionary> list;
 
+    TableView<Dictionary> table;
+
     TableColumn<Dictionary, String> wordColumn;
     TableColumn<Dictionary, String> engDescColumn;
     TableColumn<Dictionary, String> TurkishTranslateColumn;
@@ -74,10 +76,13 @@ public class MainApp extends Application {
             fillTheTable(borderPane, Option.ALL);
         });
 
+        Button deleteButton = new Button("Delete");
+        deleteButton.setOnAction(e -> deleteAnObject());
+
         HBox hBoxBottom = new HBox();
         hBoxBottom.setSpacing(125);
         hBoxBottom.setPadding(new Insets(15, 12, 70, 100));//(top/right/bottom/left)
-        hBoxBottom.getChildren().addAll(addButton,randomButton,showAllButton);
+        hBoxBottom.getChildren().addAll(addButton,randomButton,showAllButton, deleteButton);
 
         borderPane.setBottom(hBoxBottom);
 
@@ -86,6 +91,26 @@ public class MainApp extends Application {
         stage.setTitle("Dictionary App");
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void deleteAnObject(){
+        ObservableList<Dictionary> selectedWords, allWords;
+        allWords = table.getItems();
+        selectedWords = table.getSelectionModel().getSelectedItems();
+
+        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        for(Dictionary dict: selectedWords){
+            session.delete(dict);
+            allWords.remove(dict);
+        }
+        session.getTransaction().commit();
+        session.close();
+
+        sessionFactory.close();
     }
 
     public void addNewWord(BorderPane borderPane){
@@ -270,7 +295,7 @@ public class MainApp extends Application {
         exampleSentenceColumn.setCellValueFactory(new PropertyValueFactory<>("exampleSentence"));
         exampleSentenceColumn.setVisible(exampleSentenceCheckBoxFlag);
 
-        TableView<Dictionary> table = new TableView<>();
+        table = new TableView<>();
         if(option == Option.ALL)
             table.setItems(getListOfObjects());
         else if(option == Option.RANDOM)
