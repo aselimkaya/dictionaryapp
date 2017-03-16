@@ -99,11 +99,6 @@ public class MainApp extends Application {
         stage.setTitle("Dictionary App");
         stage.setScene(scene);
         stage.show();
-
-        initializeCheckBoxes(borderPane);
-        fillTheTable(borderPane, Option.ALL);
-        deleteButton.setVisible(true);
-        hBoxBottom.setPadding(new Insets(15, 12, 70, 70));
     }
 
     public void deleteAnObject(){
