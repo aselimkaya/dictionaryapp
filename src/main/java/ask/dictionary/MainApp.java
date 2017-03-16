@@ -41,7 +41,7 @@ public class MainApp extends Application {
     static boolean wordsEnglishDescriptionCheckBoxFlag;
     static boolean wordsTurkishTranslationCheckBoxFlag;
     static boolean exampleSentenceCheckBoxFlag;
-    
+
 
     public static void main(String[] args) {
 
@@ -65,6 +65,7 @@ public class MainApp extends Application {
         Button deleteButton = new Button("Delete");
         deleteButton.setOnAction(e -> deleteAnObject());
         deleteButton.setVisible(false);
+        deleteButton.disableProperty().bind(Bindings.isEmpty(list));
 
         Button randomButton = new Button("Get a random word");
         randomButton.setOnAction(e -> {
