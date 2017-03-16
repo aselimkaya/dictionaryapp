@@ -20,8 +20,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.util.Random;
 
 
@@ -43,9 +41,7 @@ public class MainApp extends Application {
     static boolean wordsEnglishDescriptionCheckBoxFlag;
     static boolean wordsTurkishTranslationCheckBoxFlag;
     static boolean exampleSentenceCheckBoxFlag;
-
-
-
+    
 
     public static void main(String[] args) {
 
@@ -172,7 +168,8 @@ public class MainApp extends Application {
 
         BooleanBinding exampleSentenceTextFieldValid = Bindings.createBooleanBinding(() ->
                 exampleSentenceTextField.getText().trim().length() != 0, exampleSentenceTextField.textProperty());
-        
+
+
 
         Button saveButton = new Button("Save");
 
@@ -275,10 +272,11 @@ public class MainApp extends Application {
             }
         });
 
+        Label wordCount = new Label("Words: " + list.size());
 
         hBoxTop.getChildren().addAll(wordCheckBox, wordsEnglishDescriptionCheckBox, wordsTurkishTranslationCheckBox,
-                exampleSentenceCheckBox);
-        hBoxTop.setSpacing(80);
+                exampleSentenceCheckBox, wordCount);
+        hBoxTop.setSpacing(60);
         hBoxTop.setPadding(new Insets(15, 12, 15, 70));
 
         borderPane.setTop(hBoxTop);
