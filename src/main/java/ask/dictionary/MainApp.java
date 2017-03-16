@@ -5,8 +5,6 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -147,8 +145,8 @@ public class MainApp extends Application {
         TextField engDescTextField = new TextField();
         gridPane.add(engDescTextField, 2, 1);
 
-        BooleanBinding engDescTextFieldValid = Bindings.createBooleanBinding(() ->
-                engDescTextField.getText().trim().length() != 0, engDescTextField.textProperty());
+        /*BooleanBinding engDescTextFieldValid = Bindings.createBooleanBinding(() ->
+                engDescTextField.getText().trim().length() != 0, engDescTextField.textProperty());*/
 
 
 
@@ -167,8 +165,8 @@ public class MainApp extends Application {
         TextField exampleSentenceTextField = new TextField();
         gridPane.add(exampleSentenceTextField, 2, 3);
 
-        BooleanBinding exampleSentenceTextFieldValid = Bindings.createBooleanBinding(() ->
-                exampleSentenceTextField.getText().trim().length() != 0, exampleSentenceTextField.textProperty());
+        /*BooleanBinding exampleSentenceTextFieldValid = Bindings.createBooleanBinding(() ->
+                exampleSentenceTextField.getText().trim().length() != 0, exampleSentenceTextField.textProperty());*/
 
 
 
@@ -205,17 +203,14 @@ public class MainApp extends Application {
         CheckBox wordCheckBox = new CheckBox("Word");
         wordCheckBox.setSelected(wordCheckBoxFlag);
 
-        wordCheckBox.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(!wordCheckBox.isSelected()) {
-                    wordColumn.setVisible(false);
-                    wordCheckBoxFlag = false;
-                }
-                else{
-                    wordCheckBoxFlag = true;
-                    wordColumn.setVisible(true);
-                }
+        wordCheckBox.setOnAction(event -> {
+            if(!wordCheckBox.isSelected()) {
+                wordColumn.setVisible(false);
+                wordCheckBoxFlag = false;
+            }
+            else{
+                wordCheckBoxFlag = true;
+                wordColumn.setVisible(true);
             }
         });
 
@@ -223,17 +218,14 @@ public class MainApp extends Application {
         CheckBox wordsEnglishDescriptionCheckBox = new CheckBox("English Description");
         wordsEnglishDescriptionCheckBox.setSelected(wordsEnglishDescriptionCheckBoxFlag);
 
-        wordsEnglishDescriptionCheckBox.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(wordsEnglishDescriptionCheckBox.isSelected()) {
-                    engDescColumn.setVisible(true);
-                    wordsEnglishDescriptionCheckBoxFlag = true;
-                }
-                else{
-                    engDescColumn.setVisible(false);
-                    wordsEnglishDescriptionCheckBoxFlag = false;
-                }
+        wordsEnglishDescriptionCheckBox.setOnAction(event -> {
+            if(wordsEnglishDescriptionCheckBox.isSelected()) {
+                engDescColumn.setVisible(true);
+                wordsEnglishDescriptionCheckBoxFlag = true;
+            }
+            else{
+                engDescColumn.setVisible(false);
+                wordsEnglishDescriptionCheckBoxFlag = false;
             }
         });
 
@@ -241,17 +233,14 @@ public class MainApp extends Application {
         CheckBox wordsTurkishTranslationCheckBox = new CheckBox("Turkish Translation");
         wordsTurkishTranslationCheckBox.setSelected(wordsTurkishTranslationCheckBoxFlag);
 
-        wordsTurkishTranslationCheckBox.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(!wordsTurkishTranslationCheckBox.isSelected()) {
-                    TurkishTranslateColumn.setVisible(false);
-                    wordsTurkishTranslationCheckBoxFlag = false;
-                }
-                else {
-                    TurkishTranslateColumn.setVisible(true);
-                    wordsTurkishTranslationCheckBoxFlag = true;
-                }
+        wordsTurkishTranslationCheckBox.setOnAction(event -> {
+            if(!wordsTurkishTranslationCheckBox.isSelected()) {
+                TurkishTranslateColumn.setVisible(false);
+                wordsTurkishTranslationCheckBoxFlag = false;
+            }
+            else {
+                TurkishTranslateColumn.setVisible(true);
+                wordsTurkishTranslationCheckBoxFlag = true;
             }
         });
 
@@ -259,17 +248,14 @@ public class MainApp extends Application {
         CheckBox exampleSentenceCheckBox = new CheckBox("Example Sentence");
         exampleSentenceCheckBox.setSelected(exampleSentenceCheckBoxFlag);
 
-        exampleSentenceCheckBox.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(!exampleSentenceCheckBox.isSelected()) {
-                    exampleSentenceColumn.setVisible(false);
-                    exampleSentenceCheckBoxFlag = false;
-                }
-                else if(exampleSentenceCheckBox.isSelected()) {
-                    exampleSentenceColumn.setVisible(true);
-                    exampleSentenceCheckBoxFlag = true;
-                }
+        exampleSentenceCheckBox.setOnAction(event -> {
+            if(!exampleSentenceCheckBox.isSelected()) {
+                exampleSentenceColumn.setVisible(false);
+                exampleSentenceCheckBoxFlag = false;
+            }
+            else if(exampleSentenceCheckBox.isSelected()) {
+                exampleSentenceColumn.setVisible(true);
+                exampleSentenceCheckBoxFlag = true;
             }
         });
 
