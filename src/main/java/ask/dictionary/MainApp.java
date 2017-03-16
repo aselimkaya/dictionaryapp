@@ -42,9 +42,7 @@ public class MainApp extends Application {
     static boolean wordsTurkishTranslationCheckBoxFlag;
     static boolean exampleSentenceCheckBoxFlag;
 
-
     public static void main(String[] args) {
-
         fillList();
 
         wordCheckBoxFlag = true;
@@ -53,7 +51,6 @@ public class MainApp extends Application {
         exampleSentenceCheckBoxFlag = true;
 
         launch(args);
-
     }
 
     @Override
@@ -109,19 +106,22 @@ public class MainApp extends Application {
 
         allWords = table.getItems();
         selectedWords = table.getSelectionModel().getSelectedItems();
-        SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
 
-        for(Dictionary dict: selectedWords){
-            session.delete(dict);
-            allWords.remove(dict);
+        if(selectedWords.size()>0){
+            SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+            Session session = sessionFactory.openSession();
+            session.beginTransaction();
+
+            for(Dictionary dict: selectedWords){
+                session.delete(dict);
+                allWords.remove(dict);
+            }
+            session.getTransaction().commit();
+            session.close();
+
+            sessionFactory.close();
         }
-        session.getTransaction().commit();
-        session.close();
-
-        sessionFactory.close();
     }
 
     public void addNewWord(BorderPane borderPane){
