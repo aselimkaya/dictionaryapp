@@ -18,6 +18,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.HashMap;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class MainApp extends Application {
 
     private static ObservableList<Dictionary> list;
+    private static HashMap<String, Integer> randomMap;
 
     private TableView<Dictionary> table;
 
@@ -48,6 +50,8 @@ public class MainApp extends Application {
         exampleSentenceCheckBoxFlag = true;
 
         fillList();
+
+        randomMap = new HashMap<>();
     }
 
     public static void main(String[] args) {
@@ -347,18 +351,42 @@ public class MainApp extends Application {
     public ObservableList<Dictionary> getARandomObject(){
 
         ObservableList<Dictionary> randomObject;
+        randomObject = FXCollections.observableArrayList();
 
         if(list!=null && list.size()>0) {
             Random random = new Random();
             int randomNum = random.nextInt(list.size());
 
-            randomObject = FXCollections.observableArrayList();
-            randomObject.add(list.get(randomNum));
+
+            Dictionary obj = list.get(randomNum);
+            String randomText = obj.getWord();
+
+            System.out.println(randomText);
+
+            if(randomMap.get(randomText) == null) {
+                randomObject.add(obj);
+                randomMap.put(randomText, 1);
+                return randomObject;
+            }
+
+            else if(randomMap.get(randomText) == 0) {
+                randomObject.add(obj);
+                randomMap.put(randomText, 1);
+                return randomObject;
+            }
+
+            else if(randomMap.get(randomText) == 1) {
+                randomMap.put(randomText, 2);
+                return getARandomObject();
+            }
+
+            else {
+                randomMap.put(randomText, 0);
+                return getARandomObject();
+            }
         }
         else
-            randomObject = getListOfObjects();
-        
-        return randomObject;
+            return getListOfObjects();
     }
 
     public void saveTheWord(Dictionary obj){
