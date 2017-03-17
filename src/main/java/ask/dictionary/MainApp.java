@@ -3,8 +3,6 @@ package ask.dictionary;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -29,28 +27,30 @@ import java.util.stream.Collectors;
  */
 public class MainApp extends Application {
 
-    static ObservableList<Dictionary> list;
+    private static ObservableList<Dictionary> list;
 
-    TableView<Dictionary> table = new TableView<>();
+    private TableView<Dictionary> table;
 
-    TableColumn<Dictionary, String> wordColumn;
-    TableColumn<Dictionary, String> engDescColumn;
-    TableColumn<Dictionary, String> TurkishTranslateColumn;
-    TableColumn<Dictionary, String> exampleSentenceColumn;
+    private TableColumn<Dictionary, String> wordColumn;
+    private TableColumn<Dictionary, String> engDescColumn;
+    private TableColumn<Dictionary, String> TurkishTranslateColumn;
+    private TableColumn<Dictionary, String> exampleSentenceColumn;
 
-    static boolean wordCheckBoxFlag;
-    static boolean wordsEnglishDescriptionCheckBoxFlag;
-    static boolean wordsTurkishTranslationCheckBoxFlag;
-    static boolean exampleSentenceCheckBoxFlag;
+    private static boolean wordCheckBoxFlag;
+    private static boolean wordsEnglishDescriptionCheckBoxFlag;
+    private static boolean wordsTurkishTranslationCheckBoxFlag;
+    private static boolean exampleSentenceCheckBoxFlag;
 
-    public static void main(String[] args) {
-        fillList();
-
+    static {
         wordCheckBoxFlag = true;
         wordsEnglishDescriptionCheckBoxFlag = true;
         wordsTurkishTranslationCheckBoxFlag = true;
         exampleSentenceCheckBoxFlag = true;
 
+        fillList();
+    }
+
+    public static void main(String[] args) {
         launch(args);
     }
 
@@ -76,6 +76,7 @@ public class MainApp extends Application {
 
         Button clearButton = new Button("Clear");
         clearButton.setOnAction(e -> {
+            searchField.clear();
             initializeCheckBoxes(borderPane);
             fillTheTable(borderPane, Option.ALL);
         });
@@ -96,7 +97,6 @@ public class MainApp extends Application {
             addNewWord(borderPane);
             deleteButton.setVisible(false);
             hBoxButtons.setPadding(new Insets(15, 12, 70, 200));
-            hBoxButtons.setSpacing(150);
             addButton.setVisible(false);
             randomButton.setVisible(true);
             showAllButton.setVisible(true);
@@ -108,10 +108,9 @@ public class MainApp extends Application {
             fillTheTable(borderPane, Option.RANDOM);
             hBoxSearch.setVisible(false);
             addButton.setVisible(true);
-            randomButton.setVisible(false);
             showAllButton.setVisible(true);
             deleteButton.setVisible(true);
-            hBoxButtons.setPadding(new Insets(15, 12, 70, 140));
+            hBoxButtons.setPadding(new Insets(15, 12, 70, 70));
         });
 
         showAllButton.managedProperty().bind(showAllButton.visibleProperty());
@@ -154,7 +153,6 @@ public class MainApp extends Application {
         allWords = table.getItems();
         selectedWords = table.getSelectionModel().getSelectedItems();
 
-
         if(selectedWords.size()>0){
             SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
             Session session = sessionFactory.openSession();
@@ -194,10 +192,6 @@ public class MainApp extends Application {
         TextField engDescTextField = new TextField();
         gridPane.add(engDescTextField, 2, 1);
 
-        /*BooleanBinding engDescTextFieldValid = Bindings.createBooleanBinding(() ->
-                engDescTextField.getText().trim().length() != 0, engDescTextField.textProperty());*/
-
-
 
         Label TurkishTranslateLabel = new Label("Enter word's Turkish translation:");
         gridPane.add(TurkishTranslateLabel, 1, 2);
@@ -208,15 +202,10 @@ public class MainApp extends Application {
                 TurkishTranslateTextField.getText().trim().length() != 0, TurkishTranslateTextField.textProperty());
 
 
-
         Label exampleSentenceLabel = new Label("Enter an example sentence for the word:");
         gridPane.add(exampleSentenceLabel, 1, 3);
         TextField exampleSentenceTextField = new TextField();
         gridPane.add(exampleSentenceTextField, 2, 3);
-
-        /*BooleanBinding exampleSentenceTextFieldValid = Bindings.createBooleanBinding(() ->
-                exampleSentenceTextField.getText().trim().length() != 0, exampleSentenceTextField.textProperty());*/
-
 
 
         Button saveButton = new Button("Save");
@@ -368,8 +357,7 @@ public class MainApp extends Application {
         }
         else
             randomObject = getListOfObjects();
-
-
+        
         return randomObject;
     }
 
