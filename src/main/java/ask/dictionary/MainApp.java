@@ -3,6 +3,8 @@ package ask.dictionary;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -40,6 +42,8 @@ public class MainApp extends Application {
     static boolean wordsTurkishTranslationCheckBoxFlag;
     static boolean exampleSentenceCheckBoxFlag;
 
+    Button addButton, randomButton, showAllButton, deleteButton;
+
     public static void main(String[] args) {
         fillList();
 
@@ -57,33 +61,45 @@ public class MainApp extends Application {
 
         HBox hBoxBottom = new HBox();
 
-        Button deleteButton = new Button("Delete");
-        deleteButton.setOnAction(e -> deleteAnObject());
-        deleteButton.setVisible(false);
-        deleteButton.disableProperty().bind(Bindings.isEmpty(list));
-
-        Button randomButton = new Button("Get a random word");
-        randomButton.setOnAction(e -> {
-            initializeCheckBoxes(borderPane);
-            fillTheTable(borderPane, Option.RANDOM);
-            deleteButton.setVisible(true);
-            hBoxBottom.setPadding(new Insets(15, 12, 70, 70));
-        });
-
-        Button addButton = new Button("Add a new word");
+        addButton = new Button("Add a new word");
+        addButton.managedProperty().bind(addButton.visibleProperty());
         addButton.setOnAction(e -> {
             addNewWord(borderPane);
             deleteButton.setVisible(false);
             hBoxBottom.setPadding(new Insets(15, 12, 70, 120));
+            addButton.setVisible(false);
+            randomButton.setVisible(true);
+            showAllButton.setVisible(true);
         });
 
-        Button showAllButton = new Button("Show all words");
-        showAllButton.setOnAction(e -> {
+        randomButton = new Button("Get a random word");
+        randomButton.managedProperty().bind(randomButton.visibleProperty());
+        randomButton.setOnAction(e -> {
             initializeCheckBoxes(borderPane);
-            fillTheTable(borderPane, Option.ALL);
+            fillTheTable(borderPane, Option.RANDOM);
+            addButton.setVisible(true);
+            randomButton.setVisible(false);
+            showAllButton.setVisible(true);
             deleteButton.setVisible(true);
             hBoxBottom.setPadding(new Insets(15, 12, 70, 70));
         });
+
+        showAllButton = new Button("Show all words");
+        showAllButton.managedProperty().bind(showAllButton.visibleProperty());
+        showAllButton.setOnAction(e -> {
+            initializeCheckBoxes(borderPane);
+            fillTheTable(borderPane, Option.ALL);
+            addButton.setVisible(true);
+            randomButton.setVisible(true);
+            showAllButton.setVisible(false);
+            deleteButton.setVisible(true);
+            hBoxBottom.setPadding(new Insets(15, 12, 70, 70));
+        });
+
+        deleteButton = new Button("Delete");
+        deleteButton.setOnAction(e -> deleteAnObject());
+        deleteButton.setVisible(false);
+        deleteButton.disableProperty().bind(Bindings.isEmpty(list));
 
 
         hBoxBottom.setSpacing(100);
@@ -182,10 +198,10 @@ public class MainApp extends Application {
             recordedObject.setWordsTurkishTranslation(TurkishTranslateTextField.getText());
             recordedObject.setExampleSentence(exampleSentenceTextField.getText());
 
-            wordTextField.setText("");
-            engDescTextField.setText("");
-            TurkishTranslateTextField.setText("");
-            exampleSentenceTextField.setText("");
+            wordTextField.clear();
+            engDescTextField.clear();
+            TurkishTranslateTextField.clear();
+            exampleSentenceTextField.clear();
 
             saveTheWord(recordedObject);
         });
@@ -307,7 +323,6 @@ public class MainApp extends Application {
     }
 
     public ObservableList<Dictionary> getARandomObject(){
-
 
         ObservableList<Dictionary> randomObject;
 
