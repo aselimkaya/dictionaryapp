@@ -21,6 +21,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.util.Random;
+import java.util.stream.Collectors;
 
 
 /**
@@ -42,8 +43,6 @@ public class MainApp extends Application {
     static boolean wordsTurkishTranslationCheckBoxFlag;
     static boolean exampleSentenceCheckBoxFlag;
 
-    Button addButton, randomButton, showAllButton, deleteButton;
-
     public static void main(String[] args) {
         fillList();
 
@@ -59,54 +58,88 @@ public class MainApp extends Application {
     public void start(Stage stage) throws Exception {
         BorderPane borderPane = new BorderPane();
 
-        HBox hBoxBottom = new HBox();
+        VBox vBoxBottom = new VBox();
 
-        addButton = new Button("Add a new word");
+        HBox hBoxSearch = new HBox();
+
+        TextField searchField = new TextField();
+        searchField.setPromptText("Write the word that you want to find...");
+        searchField.setPrefWidth(searchField.getPromptText().length()*6);
+
+        Button searchButton = new Button("Search");
+        searchButton.setOnAction(event -> {
+            String text = searchField.getText().trim().toLowerCase();
+            ObservableList<Dictionary> searchList = FXCollections.observableArrayList();
+            searchList.addAll(list.stream().filter(dict -> text.equalsIgnoreCase(dict.getWord()) || dict.getWord().contains(text)).collect(Collectors.toList()));
+            table.setItems(searchList);
+        });
+
+        Button clearButton = new Button("Clear");
+        clearButton.setOnAction(e -> {
+            initializeCheckBoxes(borderPane);
+            fillTheTable(borderPane, Option.ALL);
+        });
+
+        hBoxSearch.getChildren().addAll(searchField, searchButton, clearButton);
+        hBoxSearch.setPadding(new Insets(30,100,20,200));
+        hBoxSearch.setSpacing(30);
+        hBoxSearch.setVisible(false);
+
+        HBox hBoxButtons = new HBox();
+
+        Button addButton = new Button("Add a new word"), randomButton = new Button("Get a random word"),
+                showAllButton = new Button("Show all words"), deleteButton= new Button("Delete");
+
         addButton.managedProperty().bind(addButton.visibleProperty());
         addButton.setOnAction(e -> {
+            hBoxSearch.setVisible(false);
             addNewWord(borderPane);
             deleteButton.setVisible(false);
-            hBoxBottom.setPadding(new Insets(15, 12, 70, 120));
+            hBoxButtons.setPadding(new Insets(15, 12, 70, 200));
+            hBoxButtons.setSpacing(150);
             addButton.setVisible(false);
             randomButton.setVisible(true);
             showAllButton.setVisible(true);
         });
 
-        randomButton = new Button("Get a random word");
         randomButton.managedProperty().bind(randomButton.visibleProperty());
         randomButton.setOnAction(e -> {
             initializeCheckBoxes(borderPane);
             fillTheTable(borderPane, Option.RANDOM);
+            hBoxSearch.setVisible(false);
             addButton.setVisible(true);
             randomButton.setVisible(false);
             showAllButton.setVisible(true);
             deleteButton.setVisible(true);
-            hBoxBottom.setPadding(new Insets(15, 12, 70, 70));
+            hBoxButtons.setPadding(new Insets(15, 12, 70, 140));
         });
 
-        showAllButton = new Button("Show all words");
         showAllButton.managedProperty().bind(showAllButton.visibleProperty());
         showAllButton.setOnAction(e -> {
             initializeCheckBoxes(borderPane);
             fillTheTable(borderPane, Option.ALL);
+            hBoxSearch.setVisible(true);
             addButton.setVisible(true);
             randomButton.setVisible(true);
             showAllButton.setVisible(false);
             deleteButton.setVisible(true);
-            hBoxBottom.setPadding(new Insets(15, 12, 70, 70));
+            hBoxButtons.setPadding(new Insets(15, 12, 50, 140));
+            hBoxButtons.setSpacing(100);
         });
 
-        deleteButton = new Button("Delete");
         deleteButton.setOnAction(e -> deleteAnObject());
         deleteButton.setVisible(false);
         deleteButton.disableProperty().bind(Bindings.isEmpty(list));
 
 
-        hBoxBottom.setSpacing(100);
-        hBoxBottom.setPadding(new Insets(15, 12, 70, 120));//(top/right/bottom/left)
-        hBoxBottom.getChildren().addAll(addButton,randomButton,showAllButton, deleteButton);
+        hBoxButtons.setSpacing(100);
+        hBoxButtons.setPadding(new Insets(15, 12, 70, 120));//(top/right/bottom/left)
+        hBoxButtons.getChildren().addAll(addButton,randomButton,showAllButton, deleteButton);
 
-        borderPane.setBottom(hBoxBottom);
+        vBoxBottom.getChildren().addAll(hBoxSearch, hBoxButtons);
+        vBoxBottom.setSpacing(15);
+
+        borderPane.setBottom(vBoxBottom);
 
         Scene scene = new Scene(borderPane,800,600);
 
